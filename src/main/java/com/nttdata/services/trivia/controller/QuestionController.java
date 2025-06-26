@@ -22,7 +22,7 @@ public class QuestionController {
   private final QuestionService questionService;
 
   @GetMapping("list")
-  public ResponseEntity<List<QuestionDto>> getUserList() {
+  public ResponseEntity<List<QuestionDto>> getAllQuestions() {
     return questionService.getAllQuestions();
   }
 
