@@ -31,7 +31,7 @@ public class QuestionDto {
   /**
    * Text of the question.
    */
-  private String question;
+  private String text;
 
   /**
    * List of possible answer options.

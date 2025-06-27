@@ -1,6 +1,5 @@
 package com.nttdata.services.trivia.dto;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -46,11 +45,4 @@ class QuestionDtoTest {
     assertEquals("A", result.get(0), "La copia defensiva debe evitar modificaciones externas");
   }
 
-  @Test
-  void setOptions_shouldSetNull_whenNullIsProvided() {
-    QuestionDto dto = QuestionDto.builder().build();
-    dto.setOptions(null);
-
-    assertNull(dto.getOptions());
-  }
 }

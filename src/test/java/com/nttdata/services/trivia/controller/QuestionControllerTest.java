@@ -31,7 +31,7 @@ class QuestionControllerTest {
     return QuestionDto.builder()
         .questionId(1)
         .topic("Science")
-        .question("¿Cuál es el planeta más cercano al sol?")
+        .text("¿Cuál es el planeta más cercano al sol?")
         .options(List.of("Venus", "Marte", "Mercurio", "Júpiter"))
         .answer("Mercurio")
         .build();
@@ -41,7 +41,7 @@ class QuestionControllerTest {
     return QuestionDto.builder()
         .questionId(2)
         .topic("Food")
-        .question("¿Cuál es el ingrediente principal del guacamole?")
+        .text("¿Cuál es el ingrediente principal del guacamole?")
         .options(Arrays.asList("Tomate", "Aguacate", "Cebolla", "Chile"))
         .answer("Aguacate")
         .build();
@@ -59,7 +59,7 @@ class QuestionControllerTest {
     ResponseEntity<List<QuestionDto>> response = questionController.getAllQuestions();
 
     // Assert
-    assertEquals(200, response.getStatusCodeValue());
+    assertEquals(200, response.getStatusCode().value());
     assertEquals(expectedList, response.getBody());
     verify(questionService, times(1)).getAllQuestions();
   }
@@ -79,7 +79,7 @@ class QuestionControllerTest {
         category);
 
     // Assert
-    assertEquals(200, response.getStatusCodeValue());
+    assertEquals(200, response.getStatusCode().value());
     assertEquals(expectedList, response.getBody());
     verify(questionService, times(1)).getQuestionsByCategory(category);
   }
@@ -99,7 +99,7 @@ class QuestionControllerTest {
         id);
 
     // Assert
-    assertEquals(200, response.getStatusCodeValue());
+    assertEquals(200, response.getStatusCode().value());
     assertEquals(expectedDto, response.getBody());
     verify(questionService, times(1)).getQuestionByCategoryAndId(category, id);
   }

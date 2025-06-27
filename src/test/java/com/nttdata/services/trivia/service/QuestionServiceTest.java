@@ -40,7 +40,7 @@ class QuestionServiceTest {
         .id("1")
         .questionId(101)
         .topic("Food")
-        .question("¿Cuál es el ingrediente principal del guacamole?")
+        .text("¿Cuál es el ingrediente principal del guacamole?")
         .options(List.of("Tomate", "Aguacate", "Cebolla", "Chile"))
         .answer("Aguacate")
         .build();
@@ -50,7 +50,7 @@ class QuestionServiceTest {
     return QuestionDto.builder()
         .questionId(101)
         .topic("Food")
-        .question("¿Cuál es el ingrediente principal del guacamole?")
+        .text("¿Cuál es el ingrediente principal del guacamole?")
         .options(Arrays.asList("Tomate", "Aguacate", "Cebolla", "Chile"))
         .answer("Aguacate")
         .build();
@@ -119,7 +119,7 @@ class QuestionServiceTest {
     ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId(category, id);
 
     // Assert
-    assertEquals(200, response.getStatusCodeValue());
+    assertEquals(200, response.getStatusCode().value());
     assertEquals(expectedDto, response.getBody());
     verify(questionRepository).findAll();
     verify(questionMapper).toDto(question);
@@ -139,7 +139,7 @@ class QuestionServiceTest {
     ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId(category, id);
 
     // Assert
-    assertEquals(404, response.getStatusCodeValue());
+    assertEquals(404, response.getStatusCode().value());
     assertNull(response.getBody());
     verify(questionRepository).findAll();
     verify(questionMapper, never()).toDto(any());
@@ -152,7 +152,7 @@ class QuestionServiceTest {
         .id("1")
         .questionId(1)
         .topic("Food")
-        .question("¿Cuál es el ingrediente principal del guacamole?")
+        .text("¿Cuál es el ingrediente principal del guacamole?")
         .options(List.of("Tomate", "Aguacate", "Cebolla", "Chile"))
         .answer("Aguacate")
         .build();
@@ -161,7 +161,7 @@ class QuestionServiceTest {
         .id("2")
         .questionId(2)
         .topic("Food")
-        .question("¿Qué fruta es amarilla y curva?")
+        .text("¿Qué fruta es amarilla y curva?")
         .options(List.of("Manzana", "Banana", "Pera", "Melón"))
         .answer("Banana")
         .build();
@@ -170,7 +170,7 @@ class QuestionServiceTest {
         .id("3")
         .questionId(3)
         .topic("Science")
-        .question("¿Cuál es el planeta más cercano al sol?")
+        .text("¿Cuál es el planeta más cercano al sol?")
         .options(List.of("Venus", "Marte", "Mercurio", "Júpiter"))
         .answer("Mercurio")
         .build();
@@ -211,7 +211,7 @@ class QuestionServiceTest {
     ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId("science",
         1L);
 
-    assertEquals(200, response.getStatusCodeValue());
+    assertEquals(200, response.getStatusCode().value());
     assertEquals(dto, response.getBody());
   }
 
@@ -224,7 +224,7 @@ class QuestionServiceTest {
     ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId("science",
         1L);
 
-    assertEquals(404, response.getStatusCodeValue());
+    assertEquals(404, response.getStatusCode().value());
   }
 
   @Test
@@ -236,7 +236,7 @@ class QuestionServiceTest {
     ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId("science",
         1L);
 
-    assertEquals(404, response.getStatusCodeValue());
+    assertEquals(404, response.getStatusCode().value());
   }
 
   @Test

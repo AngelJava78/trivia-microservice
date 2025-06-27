@@ -20,7 +20,7 @@ class QuestionMapperTest {
         .id("abc123")
         .questionId(1)
         .topic("Science")
-        .question("What is H2O?")
+        .text("What is H2O?")
         .options(Arrays.asList("Water", "Oxygen", "Hydrogen"))
         .answer("Water")
         .build();
@@ -30,7 +30,7 @@ class QuestionMapperTest {
     assertNotNull(dto);
     assertEquals(model.getQuestionId(), dto.getQuestionId());
     assertEquals(model.getTopic(), dto.getTopic());
-    assertEquals(model.getQuestion(), dto.getQuestion());
+    assertEquals(model.getText(), dto.getText());
     assertEquals(model.getOptions(), dto.getOptions());
     assertEquals(model.getAnswer(), dto.getAnswer());
   }
@@ -40,7 +40,7 @@ class QuestionMapperTest {
     QuestionDto dto = QuestionDto.builder()
         .questionId(2)
         .topic("Math")
-        .question("What is 2+2?")
+        .text("What is 2+2?")
         .options(Arrays.asList("3", "4", "5"))
         .answer("4")
         .build();
@@ -50,7 +50,7 @@ class QuestionMapperTest {
     assertNotNull(model);
     assertEquals(dto.getQuestionId(), model.getQuestionId());
     assertEquals(dto.getTopic(), model.getTopic());
-    assertEquals(dto.getQuestion(), model.getQuestion());
+    assertEquals(dto.getText(), model.getText());
     assertEquals(dto.getOptions(), model.getOptions());
     assertEquals(dto.getAnswer(), model.getAnswer());
   }
@@ -58,31 +58,31 @@ class QuestionMapperTest {
   @Test
   void toDtoList_shouldMapModelListToDtoList_whenValidListProvided() {
     List<Question> models = List.of(
-        Question.builder().questionId(1).topic("A").question("Q1").options(List.of("1")).answer("1").build(),
-        Question.builder().questionId(2).topic("B").question("Q2").options(List.of("2")).answer("2").build()
+        Question.builder().questionId(1).topic("A").text("Q1").options(List.of("1")).answer("1").build(),
+        Question.builder().questionId(2).topic("B").text("Q2").options(List.of("2")).answer("2").build()
     );
 
     List<QuestionDto> dtos = mapper.toDtoList(models);
 
     assertNotNull(dtos);
     assertEquals(2, dtos.size());
-    assertEquals("Q1", dtos.get(0).getQuestion());
-    assertEquals("Q2", dtos.get(1).getQuestion());
+    assertEquals("Q1", dtos.get(0).getText());
+    assertEquals("Q2", dtos.get(1).getText());
   }
 
   @Test
   void toModelList_shouldMapDtoListToModelList_whenValidListProvided() {
     List<QuestionDto> dtos = List.of(
-        QuestionDto.builder().questionId(1).topic("X").question("QX").options(List.of("X")).answer("X").build(),
-        QuestionDto.builder().questionId(2).topic("Y").question("QY").options(List.of("Y")).answer("Y").build()
+        QuestionDto.builder().questionId(1).topic("X").text("QX").options(List.of("X")).answer("X").build(),
+        QuestionDto.builder().questionId(2).topic("Y").text("QY").options(List.of("Y")).answer("Y").build()
     );
 
     List<Question> models = mapper.toModelList(dtos);
 
     assertNotNull(models);
     assertEquals(2, models.size());
-    assertEquals("QX", models.get(0).getQuestion());
-    assertEquals("QY", models.get(1).getQuestion());
+    assertEquals("QX", models.get(0).getText());
+    assertEquals("QY", models.get(1).getText());
   }
 
   @Test
@@ -115,7 +115,7 @@ class QuestionMapperTest {
     Question model = Question.builder()
         .questionId(1)
         .topic("Test")
-        .question("Sample?")
+        .text("Sample?")
         .options(options)
         .answer("A")
         .build();
@@ -132,7 +132,7 @@ class QuestionMapperTest {
     Question model = Question.builder()
         .questionId(2)
         .topic("Test")
-        .question("Sample?")
+        .text("Sample?")
         .options(null)
         .answer("B")
         .build();
@@ -149,7 +149,7 @@ class QuestionMapperTest {
     QuestionDto dto = QuestionDto.builder()
         .questionId(1)
         .topic("General")
-        .question("Sample question?")
+        .text("Sample question?")
         .options(options)
         .answer("Option A")
         .build();
@@ -166,7 +166,7 @@ class QuestionMapperTest {
     QuestionDto dto = QuestionDto.builder()
         .questionId(2)
         .topic("General")
-        .question("Another question?")
+        .text("Another question?")
         .options(null)
         .answer("Option B")
         .build();

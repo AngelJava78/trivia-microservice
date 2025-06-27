@@ -36,8 +36,8 @@ public class QuestionService {
   public ResponseEntity<List<QuestionDto>> getAllQuestions() {
     List<QuestionDto> questionList = questionRepository.findAll()
         .stream()
-        .map(questionMapper::toDto)
-        .collect(Collectors.toList());
+        .map(questionMapper::toDto).toList();
+
     return ResponseEntity.ok(questionList);
   }
 
@@ -51,8 +51,7 @@ public class QuestionService {
     List<QuestionDto> questionsByCategory = questionRepository.findAll()
         .stream()
         .filter(q -> q.getTopic().equalsIgnoreCase(category))
-        .map(questionMapper::toDto)
-        .collect(Collectors.toList());
+        .map(questionMapper::toDto).toList();
 
     return ResponseEntity.ok(questionsByCategory);
   }
@@ -90,7 +89,7 @@ public class QuestionService {
         ));
     List<CategoryCountDto> result = grouped.entrySet().stream()
         .map(entry -> new CategoryCountDto(entry.getKey(), entry.getValue()))
-        .collect(Collectors.toList());
+        .toList();
     return ResponseEntity.ok(result);
   }
 

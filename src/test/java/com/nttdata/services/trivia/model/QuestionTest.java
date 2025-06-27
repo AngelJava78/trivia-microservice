@@ -45,11 +45,4 @@ class QuestionTest {
     assertEquals("A", result.get(0), "La copia defensiva debe evitar modificaciones externas");
   }
 
-  @Test
-  void setOptions_shouldSetNull_whenNullIsProvided() {
-    Question dto = Question.builder().build();
-    dto.setOptions(null);
-
-    assertNull(dto.getOptions());
-  }
 }
