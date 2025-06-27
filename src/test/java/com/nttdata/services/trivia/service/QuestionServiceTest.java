@@ -56,11 +56,11 @@ class QuestionServiceTest {
         .build();
   }
 
-
   @Test
   void getAllQuestions_shouldReturnListOfQuestionDtos_whenRepositoryReturnsQuestions() {
     // Arrange
     Question question = createSampleQuestion();
+
     QuestionDto questionDto = createSampleQuestionDto();
 
     when(questionRepository.findAll()).thenReturn(List.of(question));
@@ -78,16 +78,21 @@ class QuestionServiceTest {
   }
 
   @Test
-  void
-  getQuestionsByCategory_shouldReturnListOfQuestionDtos_whenCategoryMatches() {
+  void getQuestionsByCategory_shouldReturnListOfQuestionDtos_whenCategoryMatches() {
+
     // Arrange
     Question question = createSampleQuestion();
+
     QuestionDto questionDto = createSampleQuestionDto();
+
     String category = "Food";
+
     when(questionRepository.findAll()).thenReturn(List.of(question));
     when(questionMapper.toDto(question)).thenReturn(questionDto);
+
     // Act
     ResponseEntity<List<QuestionDto>> response = questionService.getQuestionsByCategory(category);
+
     // Assert
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(1, response.getBody().size());
@@ -97,14 +102,16 @@ class QuestionServiceTest {
     verify(questionMapper, times(1)).toDto(question);
   }
 
-
   @Test
   void getQuestionByCategoryAndId_shouldReturnQuestionDto_whenMatchFound() {
     // Arrange
     String category = "Food";
     long id = 101L;
+
     Question question = createSampleQuestion();
+
     QuestionDto expectedDto = createSampleQuestionDto();
+
     when(questionRepository.findAll()).thenReturn(List.of(question));
     when(questionMapper.toDto(question)).thenReturn(expectedDto);
 
@@ -123,7 +130,9 @@ class QuestionServiceTest {
     // Arrange
     String category = "Math";
     long id = 99L;
+
     Question question = createSampleQuestion();
+
     when(questionRepository.findAll()).thenReturn(List.of(question));
 
     // Act
@@ -165,33 +174,89 @@ class QuestionServiceTest {
         .options(List.of("Venus", "Marte", "Mercurio", "Júpiter"))
         .answer("Mercurio")
         .build();
+
     when(questionRepository.findAll()).thenReturn(List.of(q1, q2, q3));
+
     // Act
     ResponseEntity<List<CategoryCountDto>> response = questionService.getCategories();
+
     // Assert
     List<CategoryCountDto> result = response.getBody();
     assertEquals(2, result.size());
-    CategoryCountDto foodCategory = result.stream().filter(c -> c.getTopic().equals("food"))
-        .findFirst().orElseThrow();
-    CategoryCountDto scienceCategory = result.stream().filter(c -> c.getTopic().equals("science"))
-        .findFirst().orElseThrow();
+
+    CategoryCountDto foodCategory = result.stream()
+        .filter(c -> c.getTopic().equals("food"))
+        .findFirst()
+        .orElseThrow();
+
+    CategoryCountDto scienceCategory = result.stream()
+        .filter(c -> c.getTopic().equals("science"))
+        .findFirst()
+        .orElseThrow();
+
     assertEquals(2L, foodCategory.getTotal());
     assertEquals(1L, scienceCategory.getTotal());
+
     verify(questionRepository, times(1)).findAll();
+  }
+
+  @Test
+  void getQuestionByCategoryAndId_shouldReturnDto_whenCategoryAndIdMatch() {
+    Question question = Question.builder().questionId(1).topic("Science").build();
+    QuestionDto dto = QuestionDto.builder().questionId(1).topic("Science").build();
+
+    when(questionRepository.findAll()).thenReturn(List.of(question));
+    when(questionMapper.toDto(question)).thenReturn(dto);
+
+    ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId("science",
+        1L);
+
+    assertEquals(200, response.getStatusCodeValue());
+    assertEquals(dto, response.getBody());
+  }
+
+  @Test
+  void getQuestionByCategoryAndId_shouldReturnNotFound_whenCategoryMatchesButIdDoesNot() {
+    Question question = Question.builder().questionId(2).topic("Science").build();
+
+    when(questionRepository.findAll()).thenReturn(List.of(question));
+
+    ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId("science",
+        1L);
+
+    assertEquals(404, response.getStatusCodeValue());
+  }
+
+  @Test
+  void getQuestionByCategoryAndId_shouldReturnNotFound_whenIdMatchesButCategoryDoesNot() {
+    Question question = Question.builder().questionId(1).topic("Math").build();
+
+    when(questionRepository.findAll()).thenReturn(List.of(question));
+
+    ResponseEntity<QuestionDto> response = questionService.getQuestionByCategoryAndId("science",
+        1L);
+
+    assertEquals(404, response.getStatusCodeValue());
   }
 
   @Test
   void saveQuestion_shouldReturnSavedQuestionDto() {
     // Arrange
     QuestionDto inputDto = createSampleQuestionDto();
+
     Question questionModel = createSampleQuestion();
+
     Question savedQuestion = questionModel; // Simulamos que se guarda igual
+
     QuestionDto expectedDto = inputDto;
+
     when(questionMapper.toModel(inputDto)).thenReturn(questionModel);
     when(questionRepository.save(questionModel)).thenReturn(savedQuestion);
     when(questionMapper.toDto(savedQuestion)).thenReturn(expectedDto);
+
     // Act
     ResponseEntity<QuestionDto> response = questionService.saveQuestion(inputDto);
+
     // Assert
     assertEquals(expectedDto, response.getBody());
     verify(questionMapper).toModel(inputDto);
