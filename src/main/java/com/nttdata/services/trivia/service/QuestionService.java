@@ -14,6 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+/**
+ * Question service.
+ *
+ * @author <a href="ajavierv@emeal.nttdata.com">ajavierv@emeal.nttdata.com</a>
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +28,11 @@ public class QuestionService {
 
   private final QuestionMapper questionMapper;
 
-
+  /**
+   * Get all questions.
+   *
+   * @return ResponseEntity with list of questions
+   */
   public ResponseEntity<List<QuestionDto>> getAllQuestions() {
     List<QuestionDto> questionList = questionRepository.findAll()
         .stream()
@@ -32,6 +41,12 @@ public class QuestionService {
     return ResponseEntity.ok(questionList);
   }
 
+  /**
+   * Get questions by category.
+   *
+   * @param category category name
+   * @return ResponseEntity with list of questions
+   */
   public ResponseEntity<List<QuestionDto>> getQuestionsByCategory(String category) {
     List<QuestionDto> questionsByCategory = questionRepository.findAll()
         .stream()
@@ -42,6 +57,13 @@ public class QuestionService {
     return ResponseEntity.ok(questionsByCategory);
   }
 
+  /**
+   * Get all questions.
+   *
+   * @param category category name
+   * @param id       question id
+   * @return ResponseEntity with list of questions
+   */
   public ResponseEntity<QuestionDto> getQuestionByCategoryAndId(String category, Long id) {
     Optional<Question> questionOptional = questionRepository.findAll()
         .stream()
@@ -53,6 +75,12 @@ public class QuestionService {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+
+  /**
+   * Get question summary.
+   *
+   * @return ResponseEntity with question summary grouped by category
+   */
   public ResponseEntity<List<CategoryCountDto>> getCategories() {
     List<Question> allQuestions = questionRepository.findAll();
     Map<String, Long> grouped = allQuestions.stream()
@@ -66,6 +94,12 @@ public class QuestionService {
     return ResponseEntity.ok(result);
   }
 
+  /**
+   * Save question.
+   *
+   * @param questionDto question input data
+   * @return ResponseEntity with saved question
+   */
   public ResponseEntity<QuestionDto> saveQuestion(QuestionDto questionDto) {
     Question question = questionMapper.toModel(questionDto);
     Question savedQuestion = questionRepository.save(question);
