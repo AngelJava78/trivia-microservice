@@ -16,6 +16,7 @@
   <description>Demo project for Spring Boot</description>
   <properties>
     <java.version>21</java.version>
+    <exclusion.spotbugs>./spotbugs-exclude-filter.xml</exclusion.spotbugs>
   </properties>
   <dependencies>
     <dependency>

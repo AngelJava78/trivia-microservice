@@ -1,5 +1,7 @@
 package com.nttdata.services.trivia.dto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
@@ -40,5 +42,23 @@ public class QuestionDto {
    * Correct answer to the question.
    */
   private String answer;
-}
 
+  /**
+   * Returns an unmodifiable view of the options list.
+   *
+   * @return an unmodifiable list of options, or {@code null} if options are not set
+   */
+  public List<String> getOptions() {
+    return options == null ? null : Collections.unmodifiableList(options); // Vista inmutable
+  }
+
+  /**
+   * Sets the options list with a defensive copy.
+   *
+   * @param options the list of options to set
+   */
+  public void setOptions(List<String> options) {
+    this.options = options == null ? null : new ArrayList<>(options); // Copia defensiva
+  }
+
+}
