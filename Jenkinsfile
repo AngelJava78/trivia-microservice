@@ -7,10 +7,19 @@ pipeline {
 
   stages {
 
-    stage('Replace application.yml') {
+//     stage('Replace application.yml') {
+//       steps {
+//         configFileProvider([configFile(fileId: 'trivia-dev-application.yml', targetLocation: 'src/main/resources/application.yml')]) {
+//             echo 'application.yml has been replaced with the secret file.'
+//         }
+//       }
+//     }
+
+    stage('Replace application.yml with Secret File') {
       steps {
-        configFileProvider([configFile(fileId: 'trivia-dev-application.yml', targetLocation: 'src/main/resources/application.yml')]) {
-            echo 'application.yml has been replaced with the secret file.'
+        withCredentials([file(credentialsId: 'trivia-dev-application.yml', variable: 'APP_YML')]) {
+          sh 'cp -f $APP_YML src/main/resources/application.yml'
+          echo 'application.yml has been replaced with the secret file.'
         }
       }
     }
