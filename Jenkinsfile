@@ -7,6 +7,14 @@ pipeline {
 
   stages {
 
+    stage('Replace application.yml') {
+      steps {
+        configFileProvider([configFile(fileId: 'trivia-dev-application.yml', targetLocation: 'src/main/resources/application.yml')]) {
+            echo 'application.yml has been replaced with the secret file.'
+        }
+      }
+    }
+
     stage ('build') {
       steps {
           sh 'mvn clean install'
