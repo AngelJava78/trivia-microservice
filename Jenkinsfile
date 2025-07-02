@@ -18,7 +18,7 @@ pipeline {
     stage('Replace application.yml with Secret File') {
       steps {
         withCredentials([file(credentialsId: 'trivia-dev-application.yml', variable: 'APP_YML')]) {
-          sh 'cp -f $APP_YML src/main/resources/application.yml'
+          sh 'cp $APP_YML src/main/resources/application.yml'
           echo 'application.yml has been replaced with the secret file.'
         }
       }
