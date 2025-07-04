@@ -11,7 +11,7 @@ pipeline {
     stage('ConfigFile') {
       steps {
         configFileProvider([configFile(fileId: 'trivia-dev-application.yml', targetLocation: 'src/main/resources/application.yml')]) {
-          sh """ echo 'application.yml has been replaced.'"
+          sh """ echo 'application.yml has been replaced.'"""
         }
       }
     }
