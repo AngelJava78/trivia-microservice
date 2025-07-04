@@ -18,5 +18,11 @@ pipeline {
       }
     }
 
+    stage('Deploy') {
+      steps {
+        sh 'mvn package azure-webapp:deploy'
+      }
+    }
+
   }
 }
