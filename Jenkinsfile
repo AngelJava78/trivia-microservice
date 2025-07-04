@@ -8,13 +8,26 @@ pipeline {
 
   stages {
 
-    stage('ConfigFile') {
+//     stage('ConfigFile') {
+//       steps {
+//         configFileProvider([configFile(fileId: 'trivia-dev-application.yml', targetLocation: 'src/main/resources/application.yml')]) {
+//           sh """ echo 'application.yml has been replaced.'"""
+//         }
+//       }
+//     }
+
+    stage('Replace application.yml with Secret File') {
       steps {
-        configFileProvider([configFile(fileId: 'trivia-dev-application.yml', targetLocation: 'src/main/resources/application.yml')]) {
-          sh """ echo 'application.yml has been replaced.'"""
+        withCredentials([file(credentialsId: 'trivia-dev-application.yml', variable: 'APP_YML')]) {
+          sh """
+            mkdir -p src/main/resources
+            cp -f "$APP_YML" src/main/resources/application.yml
+            echo 'application.yml has been replaced with the secret file.'
+          """
         }
       }
     }
+
     stage('Build') {
       steps {
         sh 'mvn clean install'
